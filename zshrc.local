@@ -1,0 +1,112 @@
+# History stuff
+#HISTFILE=~/.histfile
+#HISTSIZE=1000000
+#SAVEHIST=1000000
+setopt append_history inc_append_history extended_history hist_ignore_all_dups
+
+# vi mode
+bindkey -v
+
+# Show vi mode
+function zle-line-init zle-keymap-select {
+    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+    RPS2=$RPS1
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+#source /usr/local/bin/zsh-git-prompt/zshrc.sh
+
+setopt promptsubst
+#PS1="%B%(!.%F{red}%m.%F{green}%n@%m) %B%F{blue}%~ "\
+#"%(0?.%F{green}.%F{red}סּ_סּ) %B%F{blue}%# %b%f%k"
+
+#PS_BACKGROUND='%(1j.%F{yellow}%F{red}%j .)'
+#PS_RETURN='%(0?.%F{green}'$'\U30c4''.%F{red}'$'\U0001f4a9'' )'
+#
+#PS1="%B%(!.%F{red}%m.%F{green}%m) %B%F{blue}%~ "\
+#"$PS_RETURN $PS_BACKGROUND%B%F{blue}%# %b%f%k"
+
+#RPS1='%B%F{blue}${(e)ZSH_RSTATUS} %B%F{blue}%T'
+
+unset PS_RETURN
+unset PS_BACKGROUND
+
+# Options
+setopt dvorak
+
+setopt list_ambiguous
+setopt auto_cd
+setopt interactive_comments
+setopt extended_glob
+setopt HIST_IGNORE_SPACE
+
+# Special key bindings
+bindkey "^U" backward-kill-line
+bindkey "^@" accept-and-menu-complete
+bindkey "[Z" reverse-menu-complete
+
+export LESS='-R'
+export FZF_DEFAULT_OPTS='--reverse'
+
+# Turn coloring on
+{% if ansible_system != "Darwin" %}
+alias ls='ls --color=auto'
+{% else %}
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+{% endif %}
+
+alias grep='grep --colour=auto'
+alias egrep='egrep --colour=auto'
+alias fgrep='fgrep --colour=auto'
+alias diff='colordiff'
+
+# Misc aliases
+alias gg='git grep -n'
+
+# Complex aliases
+alias router='wget -O - -q icanhazip.com'
+alias webshare='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
+alias xsum='paste -sd+|bc'
+
+# ctrl-s will no longer freeze the terminal
+unsetopt flow_control
+
+# We do want zmv!
+fpath=($fpath "/usr/local/share/zsh")
+autoload -U zmv zcp zln
+
+function extract {
+  echo Extracting $1 ...
+  if [ -f $1 ] ; then
+case $1 in
+      *.tar.bz2) tar xjf $1 ;;
+      *.tar.gz) tar xzf $1 ;;
+      *.bz2) bunzip2 $1 ;;
+      *.rar) unrar x $1 ;;
+      *.gz) gunzip $1 ;;
+      *.tar) tar xf $1 ;;
+      *.tbz2) tar xjf $1 ;;
+      *.tgz) tar xzf $1 ;;
+      *.zip) unzip $1 ;;
+      *.Z) uncompress $1 ;;
+      *.7z) 7z x $1 ;;
+      *) echo "'$1' cannot be extracted via extract()" ;;
+  esac
+else
+echo "'$1' is not a valid file"
+  fi
+}
+
+for file in ~/.rc.d/*(N); do
+  if [ -f $file ]; then
+      source $file
+  fi
+done
+
+hash -d w=$VSCODE_WORKSPACE/
+
+source <(fzf --zsh)
