@@ -11,13 +11,44 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-{% for plugin in vim_plugins %}
-Plugin '{{ plugin }}'
-{% endfor %}
+" Nav
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'majutsushi/tagbar'
+Plugin 'mileszs/ack.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'vim-scripts/a.vim'
 
-{% if not local_env %}
+" Editing
+Plugin 'AndrewRadev/sideways.vim'
+Plugin 'MattesGroeger/vim-bookmarks'
+Plugin 'ilyapoz/vim-fakeclip'
+Plugin 'tommcdo/vim-exchange'
+Plugin 'tpope/vim-unimpaired'
+
+" Looks
+Plugin 'Yggdroot/indentLine'
+Plugin 'baskerville/bubblegum'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-scripts/xoria256.vim'
+Plugin 'dominikduda/vim_current_word'
+Plugin 'sjl/splice.vim'
+Plugin 'arcticicestudio/nord-vim'
+
+" VCS
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-scripts/vcscommand.vim'
+Plugin 'airblade/vim-gitgutter'
+
+" Completion
+Plugin 'editorconfig/editorconfig-vim'
+
+" Syntax
+Plugin 'genoma/vim-less'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'slim-template/vim-slim.git'
+
 "Plugin 'Valloric/YouCompleteMe'
-{% endif %}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

@@ -8,14 +8,14 @@ setopt append_history inc_append_history extended_history hist_ignore_all_dups
 bindkey -v
 
 # Show vi mode
-function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-    RPS2=$RPS1
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
+# function zle-line-init zle-keymap-select {
+#     RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+#     RPS2=$RPS1
+#     zle reset-prompt
+# }
+# 
+# zle -N zle-line-init
+# zle -N zle-keymap-select
 
 #source /usr/local/bin/zsh-git-prompt/zshrc.sh
 
@@ -52,12 +52,12 @@ export LESS='-R'
 export FZF_DEFAULT_OPTS='--reverse'
 
 # Turn coloring on
-{% if ansible_system != "Darwin" %}
-alias ls='ls --color=auto'
-{% else %}
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
-{% endif %}
+if [[ "$(uname)" == "Darwin" ]]; then
+  export CLICOLOR=1
+  export LSCOLORS=GxFxCxDxBxegedabagaced
+else
+  alias ls='ls --color=auto'
+fi
 
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
