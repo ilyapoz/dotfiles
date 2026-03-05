@@ -99,4 +99,15 @@ if ! grep -q 'zshrc.local' ~/.zshrc 2>/dev/null; then
   echo '[ -f ~/.zshrc.local ] && source ~/.zshrc.local' >> ~/.zshrc
 fi
 
+# --- local/bin scripts ---
+echo "==> Installing local/bin scripts..."
+cat > ~/local/bin/dotfiles-pull <<EOF
+#!/bin/sh
+set -e
+cd "$DOTFILES_DIR"
+echo "Pulling in $DOTFILES_DIR ..."
+exec git pull
+EOF
+chmod +x ~/local/bin/dotfiles-pull
+
 echo "==> Dotfiles installed successfully."
