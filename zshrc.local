@@ -1,3 +1,6 @@
+# Window title: just show the current directory
+ZSH_THEME_TERM_TITLE_IDLE="%~"
+
 # History stuff
 #HISTFILE=~/.histfile
 #HISTSIZE=1000000
