@@ -106,9 +106,12 @@ cat > ~/local/bin/dotfiles-pull <<EOF
 set -e
 cd "$DOTFILES_DIR"
 echo "Pulling in $DOTFILES_DIR ..."
-git pull
-echo "Running install.sh ..."
-exec ./install.sh
+if git pull | grep -q 'Already up to date'; then
+  echo "Already up to date."
+else
+  echo "Running install.sh ..."
+  exec ./install.sh
+fi
 EOF
 chmod +x ~/local/bin/dotfiles-pull
 
