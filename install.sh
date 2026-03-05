@@ -106,7 +106,9 @@ cat > ~/local/bin/dotfiles-pull <<EOF
 set -e
 cd "$DOTFILES_DIR"
 echo "Pulling in $DOTFILES_DIR ..."
-exec git pull
+git pull
+echo "Running install.sh ..."
+exec ./install.sh
 EOF
 chmod +x ~/local/bin/dotfiles-pull
 
