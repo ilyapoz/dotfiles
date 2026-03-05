@@ -110,6 +110,6 @@ for file in ~/.rc.d/*(N); do
   fi
 done
 
-hash -d w=$VSCODE_WORKSPACE/
+hash -d w=$VSCODE_WORKSPACE
 
 source <(fzf --zsh)
