@@ -65,7 +65,6 @@ fi
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
-alias diff='colordiff'
 
 # Misc aliases
 alias gg='git grep -n'
