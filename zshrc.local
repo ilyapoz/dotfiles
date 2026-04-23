@@ -6,6 +6,7 @@ ZSH_THEME_TERM_TITLE_IDLE="%~"
 #HISTSIZE=1000000
 #SAVEHIST=1000000
 setopt append_history inc_append_history extended_history hist_ignore_all_dups
+unsetopt share_history
 
 # vi mode
 bindkey -v
