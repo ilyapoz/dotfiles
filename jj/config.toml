@@ -1,0 +1,10 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = "Ilia Pozhilov"
+
+[templates]
+git_push_bookmark = "\"unkulunkulu/\" ++ change_id.short()"
+
+[ui]
+default-command = "log"

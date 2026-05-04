@@ -34,6 +34,10 @@ if command -v apt-get &>/dev/null; then
   $SUDO apt-get install -y -qq zsh tmux vim tig curl
 fi
 
+# --- nixpkgs installation ---
+echo "==> Installing packages via nix..."
+nix profile install 'nixpkgs#jujutsu' 
+
 # --- fzf (install from git for latest version) ---
 if [ ! -d ~/.fzf ]; then
   echo "==> Installing fzf from git..."
@@ -46,6 +50,11 @@ fi
 # --- git ---
 echo "==> Configuring git..."
 ln -sf "$DOTFILES_DIR/gitconfig" ~/.gitconfig
+
+# --- jj ---
+echo "==> Configuring jj..."
+mkdir -p ~/.config/jj
+ln -sf "$DOTFILES_DIR/jj/config.toml" ~/.config/jj/config.toml
 
 # --- terminfo ---
 echo "==> Installing terminfo entries..."
