@@ -4,7 +4,41 @@
 name = "Ilia Pozhilov"
 
 [templates]
-git_push_bookmark = "\"unkulunkulu/\" ++ change_id.short()"
+#git_push_bookmark = "\"unkulunkulu/\" ++ change_id.short()"
+git_push_bookmark = "git_push_bookmark_template"
 
 [ui]
 default-command = "log"
+editor = "code -w"
+diff-editor = ":builtin"
+
+[colors]
+"diff removed token" = { fg = "bright red", underline = false }
+"diff added token" = { fg = "bright green", underline = false }
+
+
+[revsets]
+bookmark-advance-to = '@-'
+
+[revset-aliases]
+'why_immutable(r)' = '(r & immutable()) | roots(r:: & immutable_heads())'
+this = 'trunk()..@ | trunk()'
+upstream = 'fork_point(@ | trunk())'
+
+[template-aliases]
+subject = 'description.first_line()'
+ticket = 'subject.match(regex:"^[A-Z][A-Z0-9_]*-[0-9]+: ").remove_suffix(": ")'
+'remove_ticket(subject)' = 'subject.replace(regex:"^[A-Z][A-Z0-9_]*-[0-9]+:\\s*", "")'
+'dashize(str)' = 'str.lower().replace(regex:"[^a-z0-9]+", "-").remove_prefix("-").remove_suffix("-")'
+
+git_push_bookmark_template= '''
+committer.email().local() ++ "/" ++
+if(!description, "",
+  if(!ticket, "",
+    if(ticket == "AVP-0", "", ticket ++ "/")
+  ) ++
+  dashize(remove_ticket(subject)) ++
+  "-"
+) ++
+change_id.short(5)
+'''
