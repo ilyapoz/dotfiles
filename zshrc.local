@@ -112,4 +112,12 @@ done
 
 hash -d w=$VSCODE_WORKSPACE
 
+cd() {
+  if [[ $# -eq 0 ]]; then
+    builtin cd ~w
+  else
+    builtin cd "$@"
+  fi
+}
+
 source <(fzf --zsh)
