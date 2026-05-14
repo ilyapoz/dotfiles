@@ -3,10 +3,6 @@
 [user]
 name = "Ilia Pozhilov"
 
-[templates]
-#git_push_bookmark = "\"unkulunkulu/\" ++ change_id.short()"
-git_push_bookmark = "git_push_bookmark_template"
-
 [ui]
 default-command = "log"
 editor = "code -w"
@@ -16,14 +12,16 @@ diff-editor = ":builtin"
 "diff removed token" = { fg = "bright red", underline = false }
 "diff added token" = { fg = "bright green", underline = false }
 
-
 [revsets]
 bookmark-advance-to = '@-'
 
 [revset-aliases]
 'why_immutable(r)' = '(r & immutable()) | roots(r:: & immutable_heads())'
-this = 'trunk()..@ | trunk()'
 upstream = 'fork_point(@ | trunk())'
+this = 'descendants(upstream..@) | upstream'
+
+[templates]
+git_push_bookmark = "git_push_bookmark_template"
 
 [template-aliases]
 subject = 'description.first_line()'
