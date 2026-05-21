@@ -75,6 +75,9 @@ alias router='wget -O - -q icanhazip.com'
 alias webshare='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 alias xsum='paste -sd+|bc'
 
+alias paneless="tmux capture-pane -epJ -S - -E 1000 | less -S"
+
+
 # ctrl-s will no longer freeze the terminal
 unsetopt flow_control
 
