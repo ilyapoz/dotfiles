@@ -36,7 +36,7 @@ fi
 
 # --- nixpkgs installation ---
 echo "==> Installing packages via nix..."
-nix profile install 'nixpkgs#jujutsu' 
+nix profile install 'nixpkgs#jujutsu' 'nixpkgs#broot'
 
 # --- fzf (install from git for latest version) ---
 if [ ! -d ~/.fzf ]; then
