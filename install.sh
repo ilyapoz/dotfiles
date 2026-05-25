@@ -36,7 +36,7 @@ fi
 
 # --- nixpkgs installation ---
 echo "==> Installing packages via nix..."
-nix_packages=(jujutsu broot silver-searcher)
+nix_packages=(jujutsu broot ripgrep)
 nix profile install "${nix_packages[@]/#/nixpkgs#}"
 
 # --- fzf (install from git for latest version) ---
