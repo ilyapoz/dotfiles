@@ -25,18 +25,14 @@ git_push_bookmark = "git_push_bookmark_template"
 
 [template-aliases]
 subject = 'description.first_line()'
-ticket = 'subject.match(regex:"^[A-Z][A-Z0-9_]*-[0-9]+: ").remove_suffix(": ")'
+ticket = 'subject.match(regex:"^[A-Z][A-Z0-9_]*-[0-9]+: ").remove_suffix(": ").replace(regex:"^AVP-0$","")'
 'remove_ticket(subject)' = 'subject.replace(regex:"^[A-Z][A-Z0-9_]*-[0-9]+:\\s*", "")'
-'dashize(str)' = 'str.lower().replace(regex:"[^a-z0-9]+", "-").remove_prefix("-").remove_suffix("-")'
+'slugify(str)' = 'str.lower().replace(regex:"[^a-z0-9]+", "-").remove_prefix("-").remove_suffix("-")'
 
 git_push_bookmark_template= '''
 committer.email().local() ++ "/" ++
-if(!description, "",
-  if(!ticket, "",
-    if(ticket == "AVP-0", "", ticket ++ "/")
-  ) ++
-  dashize(remove_ticket(subject)) ++
-  "-"
-) ++
-change_id.short(5)
+if(description,
+  surround("", "/", ticket) ++
+  slugify(remove_ticket(subject))
+)
 '''
