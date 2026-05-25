@@ -14,11 +14,14 @@ diff-editor = ":builtin"
 
 [revsets]
 bookmark-advance-to = '@-'
+log = 'this'
+
 
 [revset-aliases]
 'why_immutable(r)' = '(r & immutable()) | roots(r:: & immutable_heads())'
 upstream = 'fork_point(@ | trunk())'
 this = 'descendants(upstream..@) | upstream'
+local = "present(@) | ancestors(immutable_heads().., 2) | trunk()"
 
 [templates]
 git_push_bookmark = "git_push_bookmark_template"
@@ -28,6 +31,7 @@ subject = 'description.first_line()'
 ticket = 'subject.match(regex:"^[A-Z][A-Z0-9_]*-[0-9]+: ").remove_suffix(": ").replace(regex:"^AVP-0$","")'
 'remove_ticket(subject)' = 'subject.replace(regex:"^[A-Z][A-Z0-9_]*-[0-9]+:\\s*", "")'
 'slugify(str)' = 'str.lower().replace(regex:"[^a-z0-9]+", "-").remove_prefix("-").remove_suffix("-")'
+
 
 git_push_bookmark_template= '''
 committer.email().local() ++ "/" ++
