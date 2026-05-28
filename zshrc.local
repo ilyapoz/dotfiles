@@ -54,6 +54,9 @@ bindkey "[Z" reverse-menu-complete
 
 export LESS='-R'
 export FZF_DEFAULT_OPTS='--reverse'
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 
 # Turn coloring on
 if [[ "$(uname)" == "Darwin" ]]; then
