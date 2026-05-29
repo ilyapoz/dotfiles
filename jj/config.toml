@@ -14,19 +14,26 @@ diff-editor = ":builtin"
 
 [revsets]
 bookmark-advance-to = '@-'
-log = 'this'
+log = 'recent("2 weeks ago")'
 
 
 [revset-aliases]
 'why_immutable(r)' = '(r & immutable()) | roots(r:: & immutable_heads())'
 upstream = 'fork_point(@ | trunk())'
-this = 'descendants(upstream..@) | upstream'
-local = "present(@) | ancestors(immutable_heads().., 2) | trunk()"
+'stack(r)' = 'reachable(r, mutable())'
+'with_base(r)' = 'ancestors(r, 2)'
+'mutable_heads()' = 'heads(mutable())'
+'state(r)' = 'present(@) | trunk() | r'
+this = 'state(with_base(stack(@)))'
+local = 'state(with_base(stack(mutable())))'
+'recent(ago)' = 'state(with_base(stack(mutable_heads() & committer_date(after:ago))))'
 
 [templates]
 git_push_bookmark = "git_push_bookmark_template"
 
 [template-aliases]
+'format_timestamp(timestamp)' = 'timestamp.ago()'
+
 subject = 'description.first_line()'
 ticket = 'subject.match(regex:"^[A-Z][A-Z0-9_]*-[0-9]+: ").remove_suffix(": ").replace(regex:"^AVP-0$","")'
 'remove_ticket(subject)' = 'subject.replace(regex:"^[A-Z][A-Z0-9_]*-[0-9]+:\\s*", "")'
