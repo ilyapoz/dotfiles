@@ -13,7 +13,10 @@ diff-editor = ":builtin"
 
 [revsets]
 bookmark-advance-to = '@-'
-log = 'recent("2 weeks ago")'
+log = 'this'
+
+[aliases]
+r = ['log', '-r', 'recent("2 weeks ago")']
 
 
 [revset-aliases]
