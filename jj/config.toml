@@ -5,7 +5,6 @@ name = "Ilia Pozhilov"
 
 [ui]
 default-command = "log"
-editor = "code -w"
 diff-editor = ":builtin"
 
 [colors]
