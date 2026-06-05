@@ -7,10 +7,6 @@ name = "Ilia Pozhilov"
 default-command = "log"
 diff-editor = ":builtin"
 
-[colors]
-"diff removed token" = { fg = "bright red", underline = false }
-"diff added token" = { fg = "bright green", underline = false }
-
 [revsets]
 bookmark-advance-to = '@-'
 log = 'this'
