@@ -45,3 +45,8 @@ if(description,
   slugify(remove_ticket(subject))
 )
 '''
+
+# Hyperlinks!
+'format_short_commit_id(id)' = 'hyperlink("https://github.com/avride/av/commit/" ++ id,format_short_id(id))'
+
+'format_short_signature(signature)' = 'signature.email().local()'
