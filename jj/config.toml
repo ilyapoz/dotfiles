@@ -14,6 +14,7 @@ log = 'this'
 
 [aliases]
 r = ['log', '-r', 'recent("2 weeks ago")']
+gp = ['git', 'push']
 
 
 [revset-aliases]
