@@ -6,6 +6,7 @@ name = "Ilia Pozhilov"
 [ui]
 default-command = "log"
 diff-editor = ":builtin"
+describe-show-full-diff = true
 
 [revsets]
 bookmark-advance-to = '@-'
@@ -28,6 +29,20 @@ local = 'state(with_base(stack(mutable())))'
 
 [templates]
 git_push_bookmark = "git_push_bookmark_template"
+draft_commit_description = """
+concat(
+  builtin_draft_commit_description ++ "\n",
+  indent("JJ: ", concat(
+    if(config("ui.describe-show-full-diff").as_boolean(),
+      concat(
+        "\n",
+        "Full diff of " ++ format_short_change_id(self.change_id()) ++ ":\n",
+        self.diff().git(),
+      )
+    ),
+  )),
+)
+"""
 
 [template-aliases]
 'format_timestamp(timestamp)' = 'timestamp.ago()'
