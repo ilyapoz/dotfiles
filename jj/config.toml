@@ -49,6 +49,21 @@ concat(
 [template-aliases]
 'format_timestamp(timestamp)' = 'timestamp.ago()'
 
+# Unredact operation attributes in builtin_op_log_redacted: show the real
+# attributes instead of the literal "(redacted)". User/workspace stay hashed.
+'format_operation_redacted(op)' = '''
+concat(
+  separate(" ",
+    format_short_operation_id(op.id()),
+    format_user_redacted(op.user()),
+    format_workspace_redacted(op.workspace_name()),
+    format_time_range(op.time()),
+  ), "\n",
+  op.description().first_line(), "\n",
+  surround("", "\n", op.attributes()),
+)
+'''
+
 subject = 'description.first_line()'
 ticket = 'subject.match(regex:"^[A-Z][A-Z0-9_]*-[0-9]+: ").remove_suffix(": ").replace(regex:"^AVP-0$","")'
 'remove_ticket(subject)' = 'subject.replace(regex:"^[A-Z][A-Z0-9_]*-[0-9]+:\\s*", "")'
