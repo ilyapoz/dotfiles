@@ -13,7 +13,7 @@ bookmark-advance-to = '@-'
 log = 'this'
 
 [aliases]
-r = ['log', '-r', 'recent("2 weeks ago")']
+r = ['log', '-r', 'recent']
 gp = ['git', 'push']
 gf = ['git', 'fetch']
 
@@ -27,6 +27,7 @@ upstream = 'fork_point(@ | trunk())'
 'state(r)' = 'present(@) | trunk() | r'
 this = 'state(with_base(stack(@)))'
 local = 'state(with_base(stack(mutable())))'
+recent = 'recent("2 weeks ago")'
 'recent(ago)' = 'state(with_base(stack(mutable_heads() & committer_date(after:ago))))'
 
 [templates]
