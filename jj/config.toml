@@ -83,3 +83,9 @@ if(description,
 'format_short_commit_id(id)' = 'hyperlink(git_web_url() ++ "/commit/" ++ id, format_short_id(id))'
 
 'format_short_signature(signature)' = 'if(stringify(signature.email()) != config("user.email").as_string(), signature.email().local())'
+
+[fsmonitor]
+backend = "watchman"
+
+[fsmonitor.watchman]
+register-snapshot-trigger = true
