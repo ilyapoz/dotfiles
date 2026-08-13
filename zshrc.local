@@ -117,6 +117,7 @@ for file in ~/.rc.d/*(N); do
 done
 
 hash -d w=$VSCODE_WORKSPACE
+hash -d j=/workspaces/av/junk/unkulunkulu
 
 cd() {
   if [[ $# -eq 0 ]]; then
