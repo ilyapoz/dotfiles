@@ -52,6 +52,10 @@ concat(
 [template-aliases]
 'format_timestamp(timestamp)' = 'timestamp.ago()'
 
+# Newline-separated paths of a diff entry, for feeding `jj diff` into xargs-style
+# tools. Unlike `--name-only`, bare `path` stays repo-relative from any subdirectory.
+repo_paths = 'path ++ "\n"'
+
 # Unredact operation attributes in builtin_op_log_redacted: show the real
 # attributes instead of the literal "(redacted)". User/workspace stay hashed.
 'format_operation_redacted(op)' = '''
