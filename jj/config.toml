@@ -16,6 +16,7 @@ log = 'this'
 r = ['log', '-r', 'recent']
 gp = ['git', 'push']
 gf = ['git', 'fetch']
+lint = ['run', 'jj_lint_diff']
 
 
 [revset-aliases]

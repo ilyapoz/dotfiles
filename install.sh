@@ -125,4 +125,6 @@ fi
 EOF
 chmod +x ~/local/bin/dotfiles-pull
 
+ln -sf "$DOTFILES_DIR/bin/*" ~/local/bin
+
 echo "==> Dotfiles installed successfully."

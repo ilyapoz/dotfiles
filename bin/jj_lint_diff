@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Linting $JJ_COMMIT_ID"
+GET_FILES_COMMAND="jj diff --name-only -r $JJ_COMMIT_ID" ./lint fix
