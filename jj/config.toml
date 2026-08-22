@@ -22,14 +22,15 @@ lint = ['run', 'jj_lint_diff']
 [revset-aliases]
 'why_immutable(r)' = '(r & immutable()) | roots(r:: & immutable_heads())'
 upstream = 'fork_point(@ | trunk())'
+stack = 'stack(@)'
 'stack(r)' = 'reachable(r, mutable())'
 'with_base(r)' = 'ancestors(r, 2)'
 'mutable_heads()' = 'heads(mutable())'
-'state(r)' = 'present(@) | trunk() | r'
-this = 'state(with_base(stack(@)))'
-local = 'state(with_base(stack(mutable())))'
+'state(r)' = 'present(@) | trunk() | with_base(r)'
+this = 'state(stack)'
+local = 'state(mutable())'
 recent = 'recent("2 weeks ago")'
-'recent(ago)' = 'state(with_base(stack(mutable_heads() & committer_date(after:ago))))'
+'recent(ago)' = 'state(stack(mutable_heads() & committer_date(after:ago)))'
 
 [templates]
 git_push_bookmark = "git_push_bookmark_template"
