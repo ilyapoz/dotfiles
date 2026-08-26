@@ -95,3 +95,6 @@ backend = "watchman"
 
 [fsmonitor.watchman]
 register-snapshot-trigger = true
+
+[jj-gh]
+pr_create_template = 'description.remove_prefix(description.first_line()).trim_start()'
