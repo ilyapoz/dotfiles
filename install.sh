@@ -39,6 +39,9 @@ echo "==> Installing packages via nix..."
 nix_packages=(jujutsu broot)
 nix profile install "${nix_packages[@]/#/nixpkgs#}"
 
+echo "==> Installing jj-gh..."
+nix profile install 'github:mrjones2014/jj-gh'
+
 # --- fzf (install from git for latest version) ---
 if [ ! -d ~/.fzf ]; then
   echo "==> Installing fzf from git..."

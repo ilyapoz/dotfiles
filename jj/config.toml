@@ -17,7 +17,7 @@ r = ['log', '-r', 'recent']
 gp = ['git', 'push']
 gf = ['git', 'fetch']
 lint = ['run', 'jj_lint_diff']
-
+pr = ["util", "exec", "--", "jj-gh", "pr"]
 
 [revset-aliases]
 'why_immutable(r)' = '(r & immutable()) | roots(r:: & immutable_heads())'
