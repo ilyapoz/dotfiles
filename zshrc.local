@@ -128,3 +128,32 @@ cd() {
 }
 
 source <(fzf --zsh)
+
+# Bind a key to "run a command, pick lines with fzf, insert them at the cursor".
+#   fzf-insert-widget <widget-name> <key> <fzf-prompt> <command> [extra fzf args...]
+# The command is evaluated by the shell, so pipelines and quoting work as typed.
+typeset -gA _fzf_insert_cmd _fzf_insert_opts
+
+# One worker serves every widget; $WIDGET names the one that was invoked.
+_fzf_insert_run() {
+  local selected
+  selected=$(eval "$_fzf_insert_cmd[$WIDGET]" |
+    fzf --height 40% ${(Q)${(z)_fzf_insert_opts[$WIDGET]}})
+  [[ -n $selected ]] && LBUFFER+="${selected//$'\n'/ }"
+  # Unconditional: on abort fzf leaves the prompt erased, and a non-zero
+  # return from a ZLE widget beeps.
+  zle reset-prompt
+  return 0
+}
+
+fzf-insert-widget() {
+  local name=$1 key=$2 prompt=$3 cmd=$4; shift 4
+  _fzf_insert_cmd[$name]=$cmd
+  _fzf_insert_opts[$name]="--prompt=${(q)prompt} --multi ${(q)@}"
+  zle -N $name _fzf_insert_run
+  bindkey -M viins $key $name
+  bindkey -M vicmd $key $name
+}
+
+fzf-insert-widget jj-bookmarks '^Xb' 'bookmark> ' \
+  'jj bookmark list -T '\''name ++ if(remote, "@" ++ remote) ++ "\n"'\'''
