@@ -1,0 +1,69 @@
+#!/usr/bin/env zsh
+#
+# jj_new_workspace <revisions>...
+#
+# Creates a new change on top of <revisions>, checks it out in a throwaway jj
+# workspace under $JJ_WORKSPACES_DIR (default /workspaces) named after the
+# change id, and drops you into a shell there. Leaving the shell snapshots the
+# working copy into the change and then removes the workspace and its files;
+# the change itself survives in the repo.
+
+set -euo pipefail
+
+prog=${0:t}
+
+if (( $# == 0 )); then
+  print -u2 "usage: $prog <revisions>..."
+  exit 2
+fi
+
+workspaces_dir=${JJ_WORKSPACES_DIR:-/workspaces}
+name_len=${JJ_NEW_WORKSPACE_NAME_LEN:-8}
+
+# All repo-level operations go through the workspace we were invoked from, so
+# the cleanup trap keeps working after the new workspace's files are gone.
+main_root=$(jj workspace root)
+
+before_op=$(jj op log -n1 --no-graph --ignore-working-copy -T 'id.short()')
+jj new -r "$@" --no-edit
+
+# Whatever became visible in that one operation is the change we just created.
+change=$(jj log --no-graph --ignore-working-copy \
+  -r "all() ~ at_operation($before_op, all())" \
+  -T "change_id.short($name_len) ++ \"\n\"")
+
+if [[ ! $change =~ '^[a-z]+$' ]]; then
+  print -u2 "$prog: could not identify the new change (got '${change//$'\n'/ }')"
+  exit 1
+fi
+
+dir=$workspaces_dir/$change
+if [[ -e $dir ]]; then
+  print -u2 "$prog: $dir already exists"
+  exit 1
+fi
+
+cleanup() {
+  # Nothing may be deleted until the working copy is safely in the change.
+  if ! jj -R "$dir" util snapshot; then
+    print -u2 "$prog: failed to snapshot $dir, keeping the workspace"
+    exit 1
+  fi
+  if ! jj -R "$main_root" workspace forget -- "$change"; then
+    print -u2 "$prog: failed to forget workspace $change, keeping $dir"
+    exit 1
+  fi
+  rm -rf -- "$dir"
+  print -u2 "$prog: removed workspace $change ($dir)"
+}
+
+# `-r root()` keeps the throwaway commit `workspace add` insists on making
+# empty, so the only tree ever materialized is the one `jj edit` checks out.
+# Editing our change abandons that commit.
+jj workspace add --name "$change" -r 'root()' -- "$dir"
+trap cleanup EXIT INT TERM HUP
+jj -R "$dir" edit -- "$change"
+
+print -u2 "$prog: entering $dir (exit the shell to discard it)"
+cd -- "$dir"
+JJ_NEW_WORKSPACE=$change zsh -i || true
