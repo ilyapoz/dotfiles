@@ -91,6 +91,9 @@ if(description,
 
 'format_short_signature(signature)' = 'if(stringify(signature.email()) != config("user.email").as_string(), signature.email().local())'
 
+[snapshot]
+auto-update-stale = true
+
 [fsmonitor]
 backend = "watchman"
 
