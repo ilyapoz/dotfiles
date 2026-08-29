@@ -52,7 +52,7 @@ bindkey "^U" backward-kill-line
 bindkey "^@" accept-and-menu-complete
 bindkey "[Z" reverse-menu-complete
 
-export LESS='-R'
+export LESS='-R --mouse'
 export FZF_DEFAULT_OPTS='--reverse'
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
