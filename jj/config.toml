@@ -33,6 +33,7 @@ local = 'state(mutable())'
 recent = 'recent("2 weeks ago")'
 'recent(ago)' = 'state(stack(mutable_heads() & committer_date(after:ago)))'
 'tip(merge,branch)' = 'merge- & branch::'
+external = 'mutable() ~ mine()'
 
 [templates]
 git_push_bookmark = "git_push_bookmark_template"
