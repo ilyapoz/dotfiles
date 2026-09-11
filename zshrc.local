@@ -130,8 +130,11 @@ cd() {
 source <(fzf --zsh)
 
 # Bind a key to "run a command, pick lines with fzf, insert them at the cursor".
-#   fzf-insert-widget <widget-name> <key> <fzf-prompt> <command> [extra fzf args...]
-# The command is evaluated by the shell, so pipelines and quoting work as typed.
+#   fzf-insert-widget <widget-name> <key> <fzf-prompt> [extra fzf args...] <<'CMD'
+#   <command>
+#   CMD
+# The command comes on stdin — a quoted heredoc keeps it free of escaping — and
+# is evaluated by the shell, so pipelines and quoting work as typed.
 typeset -gA _fzf_insert_cmd _fzf_insert_opts
 
 # One worker serves every widget; $WIDGET names the one that was invoked.
@@ -147,13 +150,14 @@ _fzf_insert_run() {
 }
 
 fzf-insert-widget() {
-  local name=$1 key=$2 prompt=$3 cmd=$4; shift 4
-  _fzf_insert_cmd[$name]=$cmd
+  local name=$1 key=$2 prompt=$3; shift 3
+  _fzf_insert_cmd[$name]=$(</dev/stdin)
   _fzf_insert_opts[$name]="--prompt=${(q)prompt} --multi ${(q)@}"
   zle -N $name _fzf_insert_run
   bindkey -M viins $key $name
   bindkey -M vicmd $key $name
 }
 
-fzf-insert-widget jj-bookmarks '^Xb' 'bookmark> ' \
-  'jj bookmark list -T '\''name ++ if(remote, "@" ++ remote) ++ "\n"'\'''
+fzf-insert-widget jj-bookmarks '^Xb' 'bookmark> ' <<'CMD'
+jj bookmark list -T 'name ++ if(remote, "@" ++ remote) ++ "\n"'
+CMD
